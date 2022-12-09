@@ -92,6 +92,7 @@ def serve_google_login_register_assessee(request):
     response.set_cookie('accessToken', tokens.get('access'))
     response.set_cookie('refreshToken', tokens.get('refresh'))
 
+    print("ACCESS TOKEN", tokens.get('access'))
     return response
 
 
