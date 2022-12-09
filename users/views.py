@@ -95,9 +95,12 @@ def serve_google_login_register_assessee(request):
         response.set_cookie('refreshToken', tokens.get('refresh'))
 
     except Exception as exception:
+        print("Exception raised here")
         response.delete_cookie('accessToken', None)
         response.delete_cookie('refreshToken', None)
         response.set_cookie('googleErrorMessage', str(exception))
+
+    print("Response", response)
 
     return response
 
