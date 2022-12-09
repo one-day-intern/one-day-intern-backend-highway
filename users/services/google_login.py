@@ -31,10 +31,12 @@ def google_get_id_token_from_auth_code(auth_code, redirect_uri):
         'grant_type': GOOGLE_AUTH_GRANT_TYPE,
         'redirect_uri': redirect_uri
     }
+    print("PARAM ARGUMENT", param_argument)
     parameterized_url = utils.parameterize_url(GOOGLE_AUTH_TOKEN_URL, param_argument)
     session = requests.Session()
     response = session.post(parameterized_url)
     response_data = response.json()
+    print("RESPONSE DATA", response_data)
     try:
         return response_data['id_token']
     except KeyError:
