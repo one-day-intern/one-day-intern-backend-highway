@@ -83,19 +83,14 @@ def serve_google_login_callback_for_assessor(request):
 def serve_google_login_register_assessee(request):
     auth_code = request.GET.get('code')
     response = redirect(GOOGLE_AUTH_CLIENT_ASSESSEE_CALLBACK_URL)
-    try:
-        id_token = google_get_id_token_from_auth_code(auth_code, GOOGLE_AUTH_LOGIN_REGISTER_ASSESSEE_REDIRECT_URI)
-        user_profile = google_get_profile_from_id_token(id_token)
-        user = login_or_register_assessee_with_google_data(user_profile)
-        tokens = get_tokens_for_user(user)
 
-        response.set_cookie('accessToken', tokens.get('access'))
-        response.set_cookie('refreshToken', tokens.get('refresh'))
+    id_token = google_get_id_token_from_auth_code(auth_code, GOOGLE_AUTH_LOGIN_REGISTER_ASSESSEE_REDIRECT_URI)
+    user_profile = google_get_profile_from_id_token(id_token)
+    user = login_or_register_assessee_with_google_data(user_profile)
+    tokens = get_tokens_for_user(user)
 
-    except Exception as exception:
-        response.delete_cookie('accessToken', None)
-        response.delete_cookie('refreshToken', None)
-        response.set_cookie('googleErrorMessage', str(exception))
+    response.set_cookie('accessToken', tokens.get('access'))
+    response.set_cookie('refreshToken', tokens.get('refresh'))
 
     return response
 
